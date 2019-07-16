@@ -180,7 +180,7 @@ class DataSet:
 
 augment_stl10 = lambda x: dict(image=augment_shift(augment_mirror(x['image']), 12), label=x['label'])
 augment_cifar10 = lambda x: dict(image=augment_shift(augment_mirror(x['image']), 4), label=x['label'])
-augment_coinrun640k = lambda x: dict(image=augment_shift(x['image'], 8), label=x['label'])
+augment_coinrun320k = lambda x: dict(image=augment_shift(x['image'], 8), label=x['label'])
 augment_svhn = lambda x: dict(image=augment_shift(x['image'], 4), label=x['label'])
 
 DATASETS = {}

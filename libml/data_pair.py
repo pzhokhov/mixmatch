@@ -15,7 +15,7 @@
 import itertools
 
 from absl import flags
-from libml.data import DataSet, augment_cifar10, augment_svhn, augment_stl10, augment_coinrun640k
+from libml.data import DataSet, augment_cifar10, augment_svhn, augment_stl10, augment_coinrun320k
 import tensorflow as tf
 
 flags.DEFINE_integer('nu', 2, 'Number of augmentations for class-consistency.')
@@ -37,7 +37,7 @@ DATASETS.update([DataSet.creator('cifar10', seed, label, valid, [augment_cifar10
                  for seed, label, valid in
                  itertools.product(range(6), [250, 500, 1000, 2000, 4000, 8000], [1, 5000])])
 
-DATASETS.update([DataSet.creator('coinrun640k', seed, label, valid, [augment_coinrun640k, stack_augment(augment_coinrun640k)])
+DATASETS.update([DataSet.creator('coinrun320k', seed, label, valid, [augment_coinrun320k, stack_augment(augment_coinrun320k)])
                  for seed, label, valid in
                  itertools.product(range(6), [250, 500, 1000, 2000, 4000, 8000], [1, 5000])])
 DATASETS.update(
