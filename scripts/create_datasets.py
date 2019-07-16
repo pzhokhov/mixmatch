@@ -128,6 +128,29 @@ def _load_cifar10():
     test_set['images'] = _encode_png(unflatten(test_set['images']))
     return dict(train=train_set, test=test_set)
 
+def _load_coinrun640k():
+    import joblib
+    data = []
+    for rank in range(8):
+        data.append(joblib.load(_download_datafile_if_necessary(f'traj_st400_80k_{rank}.gz')))
+    data = {k: np.concatenate([d[k] for d in data], axis=0) for k in data[0].keys()}
+    ntest = 20000
+    train_set = {'images': _encode_png(data['obs'][:-ntest]), 'labels': data['actions'][:-ntest]}
+    test_set = {'images': _encode_png(data['obs'][ntest:]), 'labels': data['actions'][ntest:]}
+    return dict(train=train_set, test=test_set)
+
+def _download_datafile_if_necessary(filename):
+    datafile_dir = os.path.expanduser('~/data/workbench/')
+    tf.io.gfile.makedirs(datafile_dir)
+    files = os.listdir(datafile_dir)
+    filepath = os.path.join(datafile_dir, filename)
+    gcs_datadir = 'gs://peterz-rcall'
+    gspath = os.path.join(f'{gcs_datadir}/workbench/data', filename)
+    if filename not in files:
+        print(f'downloading from {gspath}...')
+        tf.io.gfile.copy(gspath, filepath, overwrite=True)
+        print(f'downloaded {filename}.')
+    return filepath
 
 def _load_cifar100():
     def unflatten(images):
@@ -199,6 +222,7 @@ CONFIGS = dict(
               checksums=dict(train=None, test=None, extra=None)),
     stl10=dict(loader=_load_stl10,
                checksums=dict(train=None, test=None)),
+    coinrun640k=dict(loader=_load_coinrun640k, checksums=dict(train=None, test=None))
 )
 
 if __name__ == '__main__':
