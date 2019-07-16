@@ -36,6 +36,10 @@ DATASETS = {}
 DATASETS.update([DataSet.creator('cifar10', seed, label, valid, [augment_cifar10, stack_augment(augment_cifar10)])
                  for seed, label, valid in
                  itertools.product(range(6), [250, 500, 1000, 2000, 4000, 8000], [1, 5000])])
+
+DATASETS.update([DataSet.creator('coinrun640k', seed, label, valid, [augment_coinrun640k, stack_augment(augment_coinrun640k)])
+                 for seed, label, valid in
+                 itertools.product(range(6), [250, 500, 1000, 2000, 4000, 8000], [1, 5000])])
 DATASETS.update(
     [DataSet.creator('cifar100', seed, label, valid, [augment_cifar10, stack_augment(augment_cifar10)], nclass=100)
      for seed, label, valid in
