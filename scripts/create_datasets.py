@@ -131,7 +131,7 @@ def _load_cifar10():
 def _load_coinrun320k():
     import joblib
     data = []
-    for rank in range(4):
+    for rank in range(1):
         data.append(joblib.load(_download_datafile_if_necessary(f'traj_st400_80k_{rank}.gz')))
     data = {k: np.concatenate([d[k] for d in data], axis=0) for k in data[0].keys()}
     ntest = 20000
